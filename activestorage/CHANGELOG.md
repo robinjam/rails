@@ -1,6 +1,32 @@
 ## Rails 6.0.3.2 (June 17, 2020) ##
 
-*   No changes.
+*   Files can now be served by proxying them from the underlying storage service
+    instead of redirecting to a signed service URL. Use the
+    `rails_storage_proxy_path` and `_url` helpers to proxy an attached file:
+
+    ```erb
+    <%= image_tag rails_storage_proxy_path(@user.avatar) %>
+    ```
+
+    To proxy by default, set `config.active_storage.resolve_model_to_route`:
+
+    ```ruby
+    # Proxy attached files instead.
+    config.active_storage.resolve_model_to_route = :rails_storage_proxy
+    ```
+
+    ```erb
+    <%= image_tag @user.avatar %>
+    ```
+
+    To redirect to a signed service URL when the default file serving strategy
+    is set to proxying, use the `rails_storage_redirect_path` and `_url` helpers:
+
+    ```erb
+    <%= image_tag rails_storage_redirect_path(@user.avatar) %>
+    ```
+
+    *Jonathan Fleckenstein*
 
 
 ## Rails 6.0.3.1 (May 18, 2020) ##
